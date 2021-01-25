@@ -1,0 +1,87 @@
+spring:
+  application:
+    name: zlrwjzan
+  profiles:
+    active: dev
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
+  global-config:
+    db-config:
+      id-type: auto
+  configuration:
+    auto-mapping-behavior: partial
+    map-underscore-to-camel-case: true
+
+jwt:
+  tokenHeader: Authorization #JWT存储的请求头
+  secret: mall-admin-secret #JWT加解密使用的密钥
+  expiration: 604800 #JWT的超期限时间(60*60*24*7)
+  tokenHead: 'Bearer '  #JWT负载中拿到开头
+
+redis:
+  database: mall
+  key:
+    admin: 'zlrwjzan:admin'
+    resourceList: 'zlrwjzan:resourceList'
+  expire:
+    common: 86400 # 24小时
+
+secure:
+  ignored:
+    urls: #安全路径白名单
+      - /swagger-ui.html
+      - /swagger-resources/**
+      - /swagger/**
+      - /**/v2/api-docs
+      - /**/*.js
+      - /**/*.css
+      - /**/*.png
+      - /**/*.ico
+      - /webjars/springfox-swagger-ui/**
+      - /actuator/**
+      - /druid/**
+      - /us/manicureStaff/register
+---
+server:
+  port: 8080
+spring:
+  profiles: dev
+  datasource:
+    url: jdbc:mysql://localhost:3306/manicure?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: zlrwjzan
+  redis:
+    host: localhost # Redis服务器地址
+    database: 0 # Redis数据库索引（默认为0）
+    port: 6379 # Redis服务器连接端口
+    password: # Redis服务器连接密码（默认为空）
+    timeout: 3000ms # 连接超时时间（毫秒）
+
+logging:
+  level:
+    root: info
+    com.zlrwjzan.manicure: debug
+
+---
+server:
+  port: 9090
+spring:
+  profiles: port
+  datasource:
+    url: jdbc:mysql://localhost:3306/manicure?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    username: root
+    password: zlrwjzan
+  redis:
+    host: localhost # Redis服务器地址
+    database: 0 # Redis数据库索引（默认为0）
+    port: 6379 # Redis服务器连接端口
+    password: # Redis服务器连接密码（默认为空）
+    timeout: 3000ms # 连接超时时间（毫秒）
+
+logging:
+  file:
+    path: /var/logs
+  level:
+    root: info
+    com.zlr.manicure: info
